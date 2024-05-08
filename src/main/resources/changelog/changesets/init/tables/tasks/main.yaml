@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: table-tasks
+      author: SmirnovDY
+      changes:
+        - createTable:
+            tableName: tasks
+            columns:
+              - column:
+                  name: task_id
+                  type: SERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: project_id
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: task_name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: task_description
+                  type: TEXT
+              - column:
+                  name: deadline
+                  type: DATE
+              - column:
+                  name: status
+                  type: VARCHAR(50)
+              - column:
+                  name: FOREIGN KEY (project_id)
+                  type: REFERENCES Проекты(project_id)
