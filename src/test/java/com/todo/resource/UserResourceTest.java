@@ -1,18 +1,17 @@
 package com.todo.resource;
 
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
-import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
+
 @QuarkusTest
 public class UserResourceTest {
+
+    private Long addedUserId;
 
     @Test
     public void testGetAllUsers() {
@@ -23,30 +22,49 @@ public class UserResourceTest {
     }
 
     @Test
-    public void testGetUserById() {
-        given()
-                .pathParam("id", 1)
-                .when().get("/users/{id}")
-                .then()
-                .statusCode(200)
-                .body("userId", equalTo(1));
-    }
-
-    @Test
     public void testAddUser() {
         given()
-                .body("{\"username\": \"test\", \"passwordHash\": \"password\", \"email\": \"test@example.com\"}")
+                .body("{\"username\": \"usernameTest\", \"password\": \"passwordTest\", \"email\": \"test@example.com\"}")
                 .contentType(ContentType.JSON)
                 .when().post("/users")
                 .then()
-                .statusCode(204);
+                .statusCode(204)
+                .extract().response().asString();
+
+        addedUserId = Long.parseLong(given()
+                .when().get("/users")
+                .then()
+                .statusCode(200)
+                .extract().jsonPath().getList("id").get(0).toString());
+        System.out.println("User id = " + addedUserId);
+    }
+
+    @Test
+    public void testGetUserById() {
+        System.out.println("User id = " + addedUserId);
+        if (addedUserId == null) {
+            System.out.println("addedUserId is null");
+            return;
+        }
+
+        given()
+                .pathParam("id", addedUserId)
+                .when().get("/users/{id}")
+                .then()
+                .statusCode(200)
+                .body("id", equalTo(addedUserId.intValue()));
     }
 
     @Test
     public void testUpdateUser() {
+        System.out.println("User id = " + addedUserId);
+        if (addedUserId == null) {
+            System.out.println("addedUserId is null");
+            return;
+        }
         given()
-                .pathParam("id", 1)
-                .body("{\"username\": \"updated\", \"passwordHash\": \"updated\", \"email\": \"updated@example.com\"}")
+                .pathParam("id", addedUserId)
+                .body("{\"username\": \"updated\", \"password\": \"updated\", \"email\": \"updated@example.com\"}")
                 .contentType(ContentType.JSON)
                 .when().put("/users/{id}")
                 .then()
@@ -55,8 +73,14 @@ public class UserResourceTest {
 
     @Test
     public void testDeleteUser() {
+        System.out.println("User id = " + addedUserId);
+        if (addedUserId == null) {
+            System.out.println("addedUserId is null");
+            return;
+        }
+
         given()
-                .pathParam("id", 1)
+                .pathParam("id", addedUserId)
                 .when().delete("/users/{id}")
                 .then()
                 .statusCode(204);

@@ -7,15 +7,20 @@ databaseChangeLog:
             tableName: tasks
             columns:
               - column:
-                  name: task_id
-                  type: SERIAL
+                  name: id
+                  type: INT
+                  autoIncrement: true
                   constraints:
                     primaryKey: true
+                    primaryKeyName: task_id
+                    nullable=: false
               - column:
-                  name: project_id
+                  name: id_project
                   type: INT
                   constraints:
                     nullable: false
+                    foreignKeyName: fk_id_project()
+                    references: projects(id)
               - column:
                   name: task_name
                   type: VARCHAR(255)
@@ -30,6 +35,3 @@ databaseChangeLog:
               - column:
                   name: status
                   type: VARCHAR(50)
-              - column:
-                  name: FOREIGN KEY (project_id)
-                  type: REFERENCES Проекты(project_id)

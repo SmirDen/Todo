@@ -1,0 +1,20 @@
+version: '3'
+services:
+
+  db:
+    container_name: db
+    image: postgres:latest
+    volumes:
+      - /volumes/postgresql:/var/lib/postgresql
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=todo_db
+    ports:
+      - "5433:5432"
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge

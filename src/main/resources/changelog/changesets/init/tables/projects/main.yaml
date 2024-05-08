@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: table-projects
+      author: SmirnovDY
+      changes:
+        - createTable:
+            tableName: projects
+            columns:
+              - column:
+                  name: id
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: project_id
+                    nullable=: false
+              - column:
+                  name: id_user
+                  type: INT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_id_user()
+                    references: users(id)
+              - column:
+                  name: project_name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false

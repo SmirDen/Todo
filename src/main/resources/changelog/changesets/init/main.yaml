@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: changelog/changesets/init/tables/users/main.yaml
+  - include:
+      file: changelog/changesets/init/tables/projects/main.yaml
+  - include:
+      file: changelog/changesets/init/tables/tasks/main.yaml
