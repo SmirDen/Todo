@@ -1,10 +1,11 @@
 package com.todo.entity;
 
+import jakarta.json.bind.annotation.JsonbDateFormat;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -28,7 +29,8 @@ public class Task {
     private String taskDescription;
 
     @Column(name = "deadline")
-    private Date deadline;
+    @JsonbDateFormat(value = "yyyy-MM-dd")
+    private LocalDate deadline;
 
     @Column(name = "status")
     private String status;

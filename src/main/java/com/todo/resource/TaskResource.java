@@ -9,7 +9,7 @@ import jakarta.ws.rs.core.MediaType;
 import java.util.List;
 
 
-@Path("/tasks")
+@Path("api/v1/tasks")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class TaskResource {
