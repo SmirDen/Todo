@@ -1,6 +1,9 @@
 package com.todo.service;
 
+import com.todo.dto.user.UserRequestDto;
+import com.todo.dto.user.UserResponseDto;
 import com.todo.entity.User;
+import com.todo.mapper.UserMapper;
 import com.todo.repository.UserRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -14,21 +17,24 @@ public class UserService {
     @Inject
     UserRepository userRepository;
 
-    public List<User> findAll() {
-        return userRepository.findAll().list();
+    @Inject
+    UserMapper userMapper;
+
+    public List<UserResponseDto> findAll() {
+        return userMapper.userToUserResponseDto(userRepository.findAll().list());
     }
 
-    public User findById(Long id) {
-        return userRepository.findById(id);
+    public UserResponseDto findById(Long id) {
+        return userMapper.userToUserResponseDto(userRepository.findById(id));
     }
 
     @Transactional
-    public void addUser(User user) {
-        userRepository.persist(user);
+    public void addUser(UserRequestDto user) {
+        userRepository.persist(userMapper.userRequestDtoToUser(user));
     }
 
     @Transactional
-    public void updateUser(User user, Long id) {
+    public void updateUser(UserRequestDto user, Long id) {
         User userFind = userRepository.findById(id);
 
         userFind.setPassword(user.getPassword());
