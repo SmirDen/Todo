@@ -1,18 +1,18 @@
-package com.todo.service;
+package com.todo.service.user.impl;
 
 import com.todo.dto.user.UserRequestDto;
 import com.todo.dto.user.UserResponseDto;
 import com.todo.entity.User;
 import com.todo.mapper.UserMapper;
 import com.todo.repository.UserRepository;
+import com.todo.service.user.UserResourceService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
 
 import java.util.List;
 
 @ApplicationScoped
-public class UserService {
+public class UserResourceServiceImpl implements UserResourceService {
 
     @Inject
     UserRepository userRepository;
@@ -20,20 +20,22 @@ public class UserService {
     @Inject
     UserMapper userMapper;
 
+    @Override
     public List<UserResponseDto> findAll() {
         return userMapper.userToUserResponseDto(userRepository.findAll().list());
     }
 
+    @Override
     public UserResponseDto findById(Long id) {
         return userMapper.userToUserResponseDto(userRepository.findById(id));
     }
 
-    @Transactional
+    @Override
     public void addUser(UserRequestDto user) {
         userRepository.persist(userMapper.userRequestDtoToUser(user));
     }
 
-    @Transactional
+    @Override
     public void updateUser(UserRequestDto user, Long id) {
         User userFind = userRepository.findById(id);
 
@@ -42,7 +44,7 @@ public class UserService {
         userFind.setUsername(user.getUsername());
     }
 
-    @Transactional
+    @Override
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
