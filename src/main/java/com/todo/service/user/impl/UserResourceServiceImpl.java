@@ -8,6 +8,7 @@ import com.todo.repository.UserRepository;
 import com.todo.service.user.UserResourceService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
@@ -31,11 +32,13 @@ public class UserResourceServiceImpl implements UserResourceService {
     }
 
     @Override
+    @Transactional
     public void addUser(UserRequestDto user) {
         userRepository.persist(userMapper.userRequestDtoToUser(user));
     }
 
     @Override
+    @Transactional
     public void updateUser(UserRequestDto user, Long id) {
         User userFind = userRepository.findById(id);
 
@@ -45,6 +48,7 @@ public class UserResourceServiceImpl implements UserResourceService {
     }
 
     @Override
+    @Transactional
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }

@@ -28,12 +28,6 @@ public interface ProjectMapper {
     @Named("projectRequestDtoToProjectMapper")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(source = "projectName", target = "projectName")
-    @Mapping(source = "user", target = "user", qualifiedByName = "userReferenceDtoToUserMapper")
+    @Mapping(source = "user", target = "user")
     Project projectRequestDtoToProject(ProjectRequestDto projectRequestDto);
-
-//    @Named("projectRequestDtoToProjectResponseDtoMapper")
-//    @BeanMapping(ignoreByDefault = true)
-//    @Mapping(source = "projectName", target = "projectName")
-//    @Mapping(source = "user", target = "user", qualifiedByName = "userReferenceDtoToUserResponseDtoMapper")
-//    ProjectResponseDto projectRequestDtoToProjectResponseDto(ProjectRequestDto projectRequestDto);
 }

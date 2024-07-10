@@ -8,6 +8,7 @@ import com.todo.repository.ProjectRepository;
 import com.todo.service.project.ProjectResourceService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
@@ -31,17 +32,20 @@ public class ProjectResourceServiceImpl implements ProjectResourceService {
     }
 
     @Override
+    @Transactional
     public void addProject(ProjectRequestDto project) {
         projectRepository.persist(projectMapper.projectRequestDtoToProject(project));
     }
 
     @Override
+    @Transactional
     public void updateProject(ProjectRequestDto project, Long id) {
         Project projectFind = projectRepository.findById(id);
         projectFind.setProjectName(project.getProjectName());
     }
 
     @Override
+    @Transactional
     public void deleteProject(Long id) {
         projectRepository.deleteById(id);
     }

@@ -9,10 +9,7 @@ import java.util.List;
 public interface UserResourceService {
     List<UserResponseDto> findAll();
     UserResponseDto findById(Long id);
-    @Transactional
     void addUser(UserRequestDto user);
-    @Transactional
     void updateUser(UserRequestDto user, Long id);
-    @Transactional
     void deleteUser(Long id);
 }

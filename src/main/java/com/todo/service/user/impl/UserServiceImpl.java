@@ -5,6 +5,7 @@ import com.todo.repository.UserRepository;
 import com.todo.service.user.UserService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
@@ -24,11 +25,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void addUser(User user) {
         userRepository.persist(user);
     }
 
     @Override
+    @Transactional
     public void updateUser(User user, Long id) {
         User userFind = userRepository.findById(id);
 
@@ -38,6 +41,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
